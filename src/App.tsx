@@ -130,9 +130,11 @@ const reviewShops: Shop[] = [
     url: "https://uforia.se",
     short:
       "Har tidigare varit omtyckt av vissa, men den senaste tiden har många i communityt rapporterat stora problem.",
-    bestFor: "Bör behandlas med försiktighet just nu tills läget känns tydligare igen.",
+    bestFor:
+      "Bör behandlas med försiktighet just nu tills läget känns tydligare igen.",
     focus: "Framför allt vapes och vissa andra THC-A-produkter",
-    shipping: "Flera community-rapporter om kraftiga förseningar eller uteblivna utskick",
+    shipping:
+      "Flera community-rapporter om kraftiga förseningar eller uteblivna utskick",
     note: "Många nämner tyst support, lång väntan och orderstrul.",
     tags: ["Under review", "Leveransproblem", "Community-varningar"],
     status: "Under review",
@@ -325,6 +327,15 @@ function SectionHeader({
   );
 }
 
+function InfoCard({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="info-panel">
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
+
 function ShopCard({ shop, review = false }: { shop: Shop; review?: boolean }) {
   return (
     <div className={`shop-card ${review ? "review" : ""}`}>
@@ -343,7 +354,12 @@ function ShopCard({ shop, review = false }: { shop: Shop; review?: boolean }) {
           </div>
         </div>
 
-        <a className={`pill-link ${review ? "danger" : ""}`} href={shop.url} target="_blank" rel="noreferrer">
+        <a
+          className={`pill-link ${review ? "danger" : ""}`}
+          href={shop.url}
+          target="_blank"
+          rel="noreferrer"
+        >
           Till hemsidan
         </a>
       </div>
@@ -378,7 +394,7 @@ function ShopCard({ shop, review = false }: { shop: Shop; review?: boolean }) {
   );
 }
 
-function App() {
+export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabId>("start");
@@ -391,6 +407,7 @@ function App() {
   );
 
   const primaryShop = trustedShops.find((shop) => shop.name === activeCompare.primary);
+
   const secondaryShops = activeCompare.secondary.map((item) => ({
     info: item,
     shop: trustedShops.find((shop) => shop.name === item.name),
@@ -433,6 +450,7 @@ function App() {
             >
               {darkMode ? <SunMedium size={18} /> : <Moon size={18} />}
             </button>
+
             <button
               className="icon-btn mobile-only"
               onClick={() => setMenuOpen((v) => !v)}
@@ -462,7 +480,7 @@ function App() {
 
       <main className="main-area">
         <AnimatePresence mode="wait">
-          {activeTab === "start" && (
+          {activeTab === "start" ? (
             <motion.section
               key="start"
               initial={{ opacity: 0, y: 8 }}
@@ -509,9 +527,9 @@ function App() {
                 </div>
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "faq" && (
+          {activeTab === "faq" ? (
             <motion.section
               key="faq"
               initial={{ opacity: 0, y: 8 }}
@@ -559,6 +577,7 @@ function App() {
                 <div className="faq-list">
                   {faqItems.map((item, index) => {
                     const isOpen = openFaq === index;
+
                     return (
                       <div key={item.question} className="faq-item">
                         <button
@@ -603,9 +622,9 @@ function App() {
                 </div>
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "shops" && (
+          {activeTab === "shops" ? (
             <motion.section
               key="shops"
               initial={{ opacity: 0, y: 8 }}
@@ -630,9 +649,9 @@ function App() {
                 ))}
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "compare" && (
+          {activeTab === "compare" ? (
             <motion.section
               key="compare"
               initial={{ opacity: 0, y: 8 }}
@@ -688,7 +707,7 @@ function App() {
                         <div className="compare-center-label">{activeCompare.label}</div>
                       </motion.div>
 
-                      {primaryShop && (
+                      {primaryShop ? (
                         <div className="compare-node primary">
                           <div className="compare-node-head">
                             <div className="compare-node-brand">{primaryShop.brand}</div>
@@ -702,9 +721,9 @@ function App() {
                             Till hemsidan
                           </a>
                         </div>
-                      )}
+                      ) : null}
 
-                      {secondaryShops[0]?.shop && (
+                      {secondaryShops[0]?.shop ? (
                         <div className="compare-node secondary secondary-top">
                           <div className="compare-node-head">
                             <div className="compare-node-brand">
@@ -725,9 +744,9 @@ function App() {
                             Till hemsidan
                           </a>
                         </div>
-                      )}
+                      ) : null}
 
-                      {secondaryShops[1]?.shop && (
+                      {secondaryShops[1]?.shop ? (
                         <div className="compare-node secondary secondary-bottom">
                           <div className="compare-node-head">
                             <div className="compare-node-brand">
@@ -748,7 +767,7 @@ function App() {
                             Till hemsidan
                           </a>
                         </div>
-                      )}
+                      ) : null}
 
                       <div className="compare-line line-1" />
                       <div className="compare-line line-2" />
@@ -759,7 +778,7 @@ function App() {
                   <div className="compare-side">
                     <div className="compare-side-card">
                       <div className="eyebrow compare-eyebrow">Varför den här matchen?</div>
-                      {primaryShop && (
+                      {primaryShop ? (
                         <>
                           <div className="compare-side-shop">
                             <div className="compare-side-brand">{primaryShop.brand}</div>
@@ -770,13 +789,13 @@ function App() {
                           </div>
                           <div className="compare-side-copy">{activeCompare.why}</div>
                         </>
-                      )}
+                      ) : null}
                     </div>
 
                     <div className="compare-side-card">
                       <div className="eyebrow compare-eyebrow">Alla val i den här matchen</div>
                       <div className="compare-side-list">
-                        {primaryShop && (
+                        {primaryShop ? (
                           <div className="compare-side-list-item">
                             <div className="compare-side-shop">
                               <div className="compare-side-brand">{primaryShop.brand}</div>
@@ -789,7 +808,7 @@ function App() {
                               Till hemsidan
                             </a>
                           </div>
-                        )}
+                        ) : null}
 
                         {secondaryShops.map(({ info, shop }) =>
                           shop ? (
@@ -814,9 +833,9 @@ function App() {
                 </div>
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "review" && (
+          {activeTab === "review" ? (
             <motion.section
               key="review"
               initial={{ opacity: 0, y: 8 }}
@@ -841,9 +860,9 @@ function App() {
                 ))}
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "candria" && (
+          {activeTab === "candria" ? (
             <motion.section
               key="candria"
               initial={{ opacity: 0, y: 8 }}
@@ -863,9 +882,9 @@ function App() {
                 ))}
               </div>
             </motion.section>
-          )}
+          ) : null}
 
-          {activeTab === "next" && (
+          {activeTab === "next" ? (
             <motion.section
               key="next"
               initial={{ opacity: 0, y: 8 }}
@@ -892,11 +911,9 @@ function App() {
                 </div>
               </div>
             </motion.section>
-          )}
+          ) : null}
         </AnimatePresence>
       </main>
     </div>
   );
 }
-
-export default App;
