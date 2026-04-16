@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
@@ -242,6 +242,13 @@ const candriaHelp = [
   },
 ];
 
+const nextSteps = [
+  "Börja här",
+  "Läget i Sverige",
+  "Trusted shoppar",
+  "Produktinfo",
+];
+
 const compareModes: CompareMode[] = [
   {
     id: "new",
@@ -299,7 +306,7 @@ function TabButton({
   onClick,
 }: {
   active: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   onClick: () => void;
 }) {
   return (
@@ -445,7 +452,7 @@ export default function App() {
           <div className="topbar-actions">
             <button
               className="icon-btn"
-              onClick={() => setDarkMode((v) => !v)}
+              onClick={() => setDarkMode((value) => !value)}
               aria-label="Byt tema"
             >
               {darkMode ? <SunMedium size={18} /> : <Moon size={18} />}
@@ -453,7 +460,7 @@ export default function App() {
 
             <button
               className="icon-btn mobile-only"
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={() => setMenuOpen((value) => !value)}
               aria-label="Öppna meny"
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -662,14 +669,13 @@ export default function App() {
               <div className="compare-shell">
                 <div className="compare-glow compare-glow-1" />
                 <div className="compare-glow compare-glow-2" />
-                <div className="compare-glow compare-glow-3" />
 
                 <div className="compare-header">
-                  <div className="eyebrow compare-eyebrow">Jämför shoppar</div>
+                  <div className="eyebrow">Jämför shoppar</div>
                   <h2>Hitta en rimlig startpunkt för just det du letar efter.</h2>
                   <p>
-                    En mörk, enkel market map där Candria hjälper dig orientera dig
-                    snabbare mellan shopparna.
+                    En enkel market map där Candria hjälper dig orientera dig snabbare
+                    mellan shopparna, utan att sidan byter till ett helt annat tema.
                   </p>
                 </div>
 
@@ -689,102 +695,84 @@ export default function App() {
 
                 <div className="compare-grid">
                   <div className="compare-map-card">
-                    <div className="eyebrow compare-eyebrow">Candria market map</div>
+                    <div className="eyebrow">Candria market map</div>
                     <h3>{activeCompare.title}</h3>
                     <p>{activeCompare.text}</p>
 
                     <div className="compare-map">
-                      <div className="compare-ring ring-1" />
-                      <div className="compare-ring ring-2" />
-                      <div className="compare-ring ring-3" />
-
                       <motion.div
                         className="compare-center"
-                        animate={{ scale: [1, 1.04, 1] }}
+                        animate={{ scale: [1, 1.03, 1] }}
                         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                       >
                         <div className="compare-center-small">Du söker</div>
                         <div className="compare-center-label">{activeCompare.label}</div>
                       </motion.div>
 
-                      {primaryShop ? (
-                        <div className="compare-node primary">
-                          <div className="compare-node-head">
-                            <div className="compare-node-brand">{primaryShop.brand}</div>
-                            <div>
-                              <div className="compare-node-title">{primaryShop.name}</div>
-                              <div className="compare-node-sub">Huvudmatch</div>
-                            </div>
-                          </div>
-                          <p>{activeCompare.why}</p>
-                          <a href={primaryShop.url} target="_blank" rel="noreferrer">
-                            Till hemsidan
-                          </a>
-                        </div>
-                      ) : null}
-
-                      {secondaryShops[0]?.shop ? (
-                        <div className="compare-node secondary secondary-top">
-                          <div className="compare-node-head">
-                            <div className="compare-node-brand">
-                              {secondaryShops[0].shop.brand}
-                            </div>
-                            <div>
-                              <div className="compare-node-title">
-                                {secondaryShops[0].shop.name}
+                      <div className="compare-route-grid">
+                        {primaryShop ? (
+                          <div className="compare-main-shop">
+                            <div className="compare-shop-head">
+                              <div className="compare-shop-brand">{primaryShop.brand}</div>
+                              <div>
+                                <div className="compare-shop-title">{primaryShop.name}</div>
+                                <div className="compare-shop-sub">Huvudmatch</div>
                               </div>
-                              <div className="compare-node-sub">Alternativ</div>
                             </div>
-                          </div>
-                          <a
-                            href={secondaryShops[0].shop.url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Till hemsidan
-                          </a>
-                        </div>
-                      ) : null}
 
-                      {secondaryShops[1]?.shop ? (
-                        <div className="compare-node secondary secondary-bottom">
-                          <div className="compare-node-head">
-                            <div className="compare-node-brand">
-                              {secondaryShops[1].shop.brand}
-                            </div>
-                            <div>
-                              <div className="compare-node-title">
-                                {secondaryShops[1].shop.name}
+                            <p>{activeCompare.why}</p>
+
+                            <a
+                              href={primaryShop.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="compare-link primary"
+                            >
+                              Till hemsidan
+                            </a>
+                          </div>
+                        ) : null}
+
+                        <div className="compare-alt-list">
+                          {secondaryShops.map(({ info, shop }) =>
+                            shop ? (
+                              <div key={shop.name} className="compare-alt-card">
+                                <div className="compare-shop-head">
+                                  <div className="compare-shop-brand">{shop.brand}</div>
+                                  <div>
+                                    <div className="compare-shop-title">{shop.name}</div>
+                                    <div className="compare-shop-sub">Alternativ</div>
+                                  </div>
+                                </div>
+
+                                <p>{info.reason}</p>
+
+                                <a
+                                  href={shop.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="compare-link secondary"
+                                >
+                                  Till hemsidan
+                                </a>
                               </div>
-                              <div className="compare-node-sub">Alternativ</div>
-                            </div>
-                          </div>
-                          <a
-                            href={secondaryShops[1].shop.url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Till hemsidan
-                          </a>
+                            ) : null
+                          )}
                         </div>
-                      ) : null}
-
-                      <div className="compare-line line-1" />
-                      <div className="compare-line line-2" />
-                      <div className="compare-line line-3" />
+                      </div>
                     </div>
                   </div>
 
                   <div className="compare-side">
                     <div className="compare-side-card">
-                      <div className="eyebrow compare-eyebrow">Varför den här matchen?</div>
+                      <div className="eyebrow">Varför den här matchen?</div>
                       {primaryShop ? (
                         <>
                           <div className="compare-side-shop">
-                            <div className="compare-side-brand">{primaryShop.brand}</div>
+                            <div className="compare-shop-brand">{primaryShop.brand}</div>
                             <div>
-                              <div className="compare-side-title">{primaryShop.name}</div>
-                              <div className="compare-side-sub">{primaryShop.domain}</div>
+                              <div className="compare-shop-title">{primaryShop.name}</div>
+                              <div className="compare-shop-sub">{primaryShop.domain}</div>
                             </div>
                           </div>
                           <div className="compare-side-copy">{activeCompare.why}</div>
@@ -793,18 +781,24 @@ export default function App() {
                     </div>
 
                     <div className="compare-side-card">
-                      <div className="eyebrow compare-eyebrow">Alla val i den här matchen</div>
+                      <div className="eyebrow">Alla val i den här matchen</div>
                       <div className="compare-side-list">
                         {primaryShop ? (
                           <div className="compare-side-list-item">
                             <div className="compare-side-shop">
-                              <div className="compare-side-brand">{primaryShop.brand}</div>
+                              <div className="compare-shop-brand">{primaryShop.brand}</div>
                               <div>
-                                <div className="compare-side-title">{primaryShop.name}</div>
-                                <div className="compare-side-sub">Huvudmatch</div>
+                                <div className="compare-shop-title">{primaryShop.name}</div>
+                                <div className="compare-shop-sub">Huvudmatch</div>
                               </div>
                             </div>
-                            <a href={primaryShop.url} target="_blank" rel="noreferrer">
+
+                            <a
+                              href={primaryShop.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="compare-link secondary"
+                            >
                               Till hemsidan
                             </a>
                           </div>
@@ -814,14 +808,21 @@ export default function App() {
                           shop ? (
                             <div key={shop.name} className="compare-side-list-item">
                               <div className="compare-side-shop">
-                                <div className="compare-side-brand">{shop.brand}</div>
+                                <div className="compare-shop-brand">{shop.brand}</div>
                                 <div>
-                                  <div className="compare-side-title">{shop.name}</div>
-                                  <div className="compare-side-sub">{shop.domain}</div>
+                                  <div className="compare-shop-title">{shop.name}</div>
+                                  <div className="compare-shop-sub">{shop.domain}</div>
                                 </div>
                               </div>
+
                               <p>{info.reason}</p>
-                              <a href={shop.url} target="_blank" rel="noreferrer">
+
+                              <a
+                                href={shop.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="compare-link secondary"
+                              >
                                 Till hemsidan
                               </a>
                             </div>
@@ -900,14 +901,12 @@ export default function App() {
 
               <div className="next-panel">
                 <div className="next-grid">
-                  {["Börja här", "Läget i Sverige", "Trusted shoppar", "Produktinfo"].map(
-                    (item) => (
-                      <div key={item} className="next-item">
-                        <Compass size={16} />
-                        <span>{item}</span>
-                      </div>
-                    )
-                  )}
+                  {nextSteps.map((item) => (
+                    <div key={item} className="next-item">
+                      <Compass size={16} />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.section>
