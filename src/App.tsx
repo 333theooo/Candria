@@ -426,7 +426,7 @@ export default function App() {
             <div className="brand-mark" />
             <div>
               <div className="brand-name">Candria</div>
-              <div className="brand-domain">candria.se</div>
+              <div className="brand-domain">candria.net</div>
             </div>
           </button>
 
