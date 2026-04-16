@@ -659,79 +659,188 @@ export default function App() {
           ) : null}
 
           {activeTab === "compare" ? (
-            <motion.section
-              key="compare"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="container section"
+  <motion.section
+    key="compare"
+    initial={{ opacity: 0, y: 8 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -8 }}
+    className="container section"
+  >
+    <div className="compare-shell">
+      <div className="compare-glow compare-glow-1" />
+      <div className="compare-glow compare-glow-2" />
+      <div className="compare-glow compare-glow-3" />
+
+      <div className="compare-header">
+        <div className="eyebrow compare-eyebrow">Jämför shoppar</div>
+        <h2>Hitta en rimlig startpunkt för just det du letar efter.</h2>
+        <p>
+          En mörk, enkel market map där Candria hjälper dig orientera dig
+          snabbare mellan shopparna.
+        </p>
+      </div>
+
+      <div className="compare-mode-row">
+        {compareModes.map((mode) => (
+          <button
+            key={mode.id}
+            className={`compare-mode-btn ${
+              compareMode === mode.id ? "active" : ""
+            }`}
+            onClick={() => setCompareMode(mode.id)}
+          >
+            {mode.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="compare-grid">
+        <div className="compare-map-card">
+          <div className="eyebrow compare-eyebrow">Candria market map</div>
+          <h3>{activeCompare.title}</h3>
+          <p>{activeCompare.text}</p>
+
+          <div className="compare-map">
+            <div className="compare-ring ring-1" />
+            <div className="compare-ring ring-2" />
+            <div className="compare-ring ring-3" />
+
+            <motion.div
+              className="compare-center"
+              animate={{ scale: [1, 1.04, 1] }}
+              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="compare-shell">
-                <div className="compare-glow compare-glow-1" />
-                <div className="compare-glow compare-glow-2" />
+              <div className="compare-center-small">Du söker</div>
+              <div className="compare-center-label">{activeCompare.label}</div>
+            </motion.div>
 
-                <div className="compare-header">
-                  <div className="eyebrow">Jämför shoppar</div>
-                  <h2>Hitta en rimlig startpunkt för just det du letar efter.</h2>
-                  <p>
-                    En enkel market map där Candria hjälper dig orientera dig snabbare
-                    mellan shopparna, utan att sidan byter till ett helt annat tema.
-                  </p>
+            {primaryShop ? (
+              <div className="compare-node primary">
+                <div className="compare-node-head">
+                  <div className="compare-node-brand">{primaryShop.brand}</div>
+                  <div>
+                    <div className="compare-node-title">{primaryShop.name}</div>
+                    <div className="compare-node-sub">Huvudmatch</div>
+                  </div>
                 </div>
+                <p>{activeCompare.why}</p>
+                <a href={primaryShop.url} target="_blank" rel="noreferrer">
+                  Till hemsidan
+                </a>
+              </div>
+            ) : null}
 
-                <div className="compare-mode-row">
-                  {compareModes.map((mode) => (
-                    <button
-                      key={mode.id}
-                      className={`compare-mode-btn ${
-                        compareMode === mode.id ? "active" : ""
-                      }`}
-                      onClick={() => setCompareMode(mode.id)}
-                    >
-                      {mode.label}
-                    </button>
-                  ))}
+            {secondaryShops[0]?.shop ? (
+              <div className="compare-node secondary secondary-top">
+                <div className="compare-node-head">
+                  <div className="compare-node-brand">
+                    {secondaryShops[0].shop.brand}
+                  </div>
+                  <div>
+                    <div className="compare-node-title">
+                      {secondaryShops[0].shop.name}
+                    </div>
+                    <div className="compare-node-sub">Alternativ</div>
+                  </div>
                 </div>
+                <a
+                  href={secondaryShops[0].shop.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Till hemsidan
+                </a>
+              </div>
+            ) : null}
 
-                <div className="compare-grid">
-                  <div className="compare-map-card">
-                    <div className="eyebrow">Candria market map</div>
-                    <h3>{activeCompare.title}</h3>
-                    <p>{activeCompare.text}</p>
+            {secondaryShops[1]?.shop ? (
+              <div className="compare-node secondary secondary-bottom">
+                <div className="compare-node-head">
+                  <div className="compare-node-brand">
+                    {secondaryShops[1].shop.brand}
+                  </div>
+                  <div>
+                    <div className="compare-node-title">
+                      {secondaryShops[1].shop.name}
+                    </div>
+                    <div className="compare-node-sub">Alternativ</div>
+                  </div>
+                </div>
+                <a
+                  href={secondaryShops[1].shop.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Till hemsidan
+                </a>
+              </div>
+            ) : null}
 
-                    <div className="compare-map">
-                      <motion.div
-                        className="compare-center"
-                        animate={{ scale: [1, 1.03, 1] }}
-                        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-                      >
-                        <div className="compare-center-small">Du söker</div>
-                        <div className="compare-center-label">{activeCompare.label}</div>
-                      </motion.div>
+            <div className="compare-line line-1" />
+            <div className="compare-line line-2" />
+            <div className="compare-line line-3" />
+          </div>
+        </div>
 
-                      <div className="compare-route-grid">
-                        {primaryShop ? (
-                          <div className="compare-main-shop">
-                            <div className="compare-shop-head">
-                              <div className="compare-shop-brand">{primaryShop.brand}</div>
-                              <div>
-                                <div className="compare-shop-title">{primaryShop.name}</div>
-                                <div className="compare-shop-sub">Huvudmatch</div>
-                              </div>
-                            </div>
+        <div className="compare-side">
+          <div className="compare-side-card">
+            <div className="eyebrow compare-eyebrow">Varför den här matchen?</div>
+            {primaryShop ? (
+              <>
+                <div className="compare-side-shop">
+                  <div className="compare-side-brand">{primaryShop.brand}</div>
+                  <div>
+                    <div className="compare-side-title">{primaryShop.name}</div>
+                    <div className="compare-side-sub">{primaryShop.domain}</div>
+                  </div>
+                </div>
+                <div className="compare-side-copy">{activeCompare.why}</div>
+              </>
+            ) : null}
+          </div>
 
-                            <p>{activeCompare.why}</p>
+          <div className="compare-side-card">
+            <div className="eyebrow compare-eyebrow">Alla val i den här matchen</div>
+            <div className="compare-side-list">
+              {primaryShop ? (
+                <div className="compare-side-list-item">
+                  <div className="compare-side-shop">
+                    <div className="compare-side-brand">{primaryShop.brand}</div>
+                    <div>
+                      <div className="compare-side-title">{primaryShop.name}</div>
+                      <div className="compare-side-sub">Huvudmatch</div>
+                    </div>
+                  </div>
+                  <a href={primaryShop.url} target="_blank" rel="noreferrer">
+                    Till hemsidan
+                  </a>
+                </div>
+              ) : null}
 
-                            <a
-                              href={primaryShop.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="compare-link primary"
-                            >
-                              Till hemsidan
-                            </a>
-                          </div>
-                        ) : null}
+              {secondaryShops.map(({ info, shop }) =>
+                shop ? (
+                  <div key={shop.name} className="compare-side-list-item">
+                    <div className="compare-side-shop">
+                      <div className="compare-side-brand">{shop.brand}</div>
+                      <div>
+                        <div className="compare-side-title">{shop.name}</div>
+                        <div className="compare-side-sub">{shop.domain}</div>
+                      </div>
+                    </div>
+                    <p>{info.reason}</p>
+                    <a href={shop.url} target="_blank" rel="noreferrer">
+                      Till hemsidan
+                    </a>
+                  </div>
+                ) : null
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </motion.section>
+) : null}
 
                         <div className="compare-alt-list">
                           {secondaryShops.map(({ info, shop }) =>
