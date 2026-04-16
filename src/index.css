@@ -1033,54 +1033,51 @@ a {
     font-size: 15px;
   }
 }
-/* compare map fix */
-.compare-map {
-  padding: 14px !important;
-}
-
+/* restore compare layout */
 .compare-main-focus {
-  margin-top: 14px !important;
-  padding: 12px 14px !important;
-  border-radius: 18px !important;
-  background: var(--panel) !important;
-  border: 1px solid var(--line) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
+  display: none !important;
 }
 
-.compare-focus-badge {
-  margin: 0 !important;
-  font-size: 10px !important;
-  line-height: 1.2 !important;
+.compare-map {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 18px !important;
 }
 
-.compare-focus-label {
-  margin-top: 0 !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 14px 18px !important;
-  border-radius: 999px !important;
-  font-size: 15px !important;
-  box-shadow: none !important;
+.compare-route-grid {
+  display: grid !important;
+  grid-template-columns: 1.08fr 0.92fr !important;
+  gap: 14px !important;
+  align-items: start !important;
 }
 
 .compare-main-shop {
-  margin-top: 12px !important;
+  margin-top: 0 !important;
 }
 
-@media (max-width: 760px) {
-  .compare-main-focus {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
+.compare-alt-list {
+  margin-top: 0 !important;
+}
 
-  .compare-focus-label {
-    align-self: stretch !important;
-    display: flex !important;
-    justify-content: center !important;
+.compare-main-shop,
+.compare-alt-card,
+.compare-side-card,
+.compare-side-list-item {
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.theme-dark .compare-main-shop,
+.theme-dark .compare-alt-card,
+.theme-dark .compare-side-card,
+.theme-dark .compare-side-list-item {
+  box-shadow: none !important;
+}
+
+@media (max-width: 980px) {
+  .compare-route-grid {
+    grid-template-columns: 1fr !important;
   }
 }
